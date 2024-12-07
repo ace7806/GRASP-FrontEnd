@@ -1,36 +1,30 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '@aws-amplify/ui-angular';
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { MyProfileComponent } from '../my-profile/my-profile.component';
 import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
-
+import { DialogRef } from '@angular/cdk/dialog';  // Use DialogRef from CDK
 
 @Component({
-  selector: 'navbar',
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  selector: 'app-my-profile',
+  templateUrl: './my-profile.component.html',
+  styleUrls: ['./my-profile.component.css']
 })
-export class NavbarComponent {
+export class MyProfileComponent implements OnInit {
   userInfo: any = {
     username: '',
     email: '',
     email_verified: '',
     sub: ''
   };
+
   constructor(
     public authenticator: AuthenticatorService,
-    private router: Router,
-    public dialog: Dialog
+    public dialogRef: DialogRef<MyProfileComponent>,  // Use DialogRef from CDK
   ) { }
+
   ngOnInit(): void {
     this.fetchUserInfo();
   }
 
-  onSignOut() {
-    this.authenticator.signOut();
-    this.router.navigate(['/'])
-  }
   async fetchUserInfo() {
     try {
       const user = await getCurrentUser();
@@ -44,6 +38,8 @@ export class NavbarComponent {
     }
   }
 
-
-
+  closeModal(): void {
+    console.log('Closing Modal...');
+    this.dialogRef.close();
+  }
 }

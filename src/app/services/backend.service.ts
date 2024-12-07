@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +30,27 @@ export class BackendService {
     return this.http.post(`${this.apiUrl}/submit-endpoint`, data);
   }
 
+// GET request
+getGasStations_aws(lng:number, lat:number): Observable<any> {
+    
+  return this.http.get(environment.GETCLOSESTGASSTATION, 
+    {
+      params : {
+        lng: lng,
+        lat: lat,
+}}
+);
+}
+// GET request
+getallGasStations(): Observable<any> {
+  return this.http.get(environment.GETGASSTATIONS);
+}
+
+updateRatings(stationId: string, rating: number): Observable<any> {
+  const data = {
+    Station_ID: stationId,
+    rating: rating
+  };
+  return this.http.post(environment.UPDATERATINGS, data);
+}
 }

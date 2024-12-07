@@ -1,0 +1,19 @@
+.about-container {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 768px) {
+    .about-container {
+      padding: 0 1rem; /* Add padding for smaller screens */
+    }
+  
+    h1, h3 {
+      font-size: 1.25rem; /* Adjust font size for smaller screens */
+    }
+  
+    p {
+      font-size: 0.9rem; /* Reduce font size slightly */
+    }
+  }
+  

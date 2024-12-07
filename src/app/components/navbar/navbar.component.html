@@ -1,21 +1,121 @@
-  <!-- As a heading -->
-  <nav class="navbar " >
-    <div class="container-fluid">
-        <h1>GRASP</h1>
 
-        <div class="dropdown" *ngIf="authenticator.route === 'authenticated'">
-        
-          <button type="button" class="btn btn-outline-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ authenticator.user.username }}
-          </button>
-        
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">My Profile</a></li>
-            <li><a class="dropdown-item" href="#">About Us</a></li>
-            <li><a class="dropdown-item" (click)="authenticator.signOut()">Sing Out</a></li>
-          </ul>
-        </div>
 
-        
+<nav class="navbar">
+
+  <div class="container-fluid">
+    <div class="logo-container">
+      <img src="assets/images/grasp_logoBig.png"  alt="Logo" width="70" height="70">
+      <h1>GRASP</h1>
     </div>
-  </nav>
+
+
+
+    <div class="dropdown d-none d-md-inline" *ngIf="authenticator.route === 'authenticated'">
+      <button
+        type="button"
+        class="btn btn-outline-info dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+       <!-- Show username on larger screens -->
+       <span class="d-none d-md-inline">{{ authenticator.user.username }}</span>
+
+       <!-- Show profile icon on smaller screens -->
+       <i class="bi bi-person-circle d-md-none"></i>
+        
+      </button>
+
+      <ul class="dropdown-menu">
+        <li>
+          <a class="dropdown-item" routerLink="/map" >Home</a>
+        </li>
+        <li> <a
+     
+          class="dropdown-item" 
+          data-bs-toggle="modal"
+          data-bs-target="#myProfileModal"
+        >
+          Profile
+        </a> </li>
+        <li> <a class="dropdown-item" routerLink="/about-us">About Us</a></li>
+        <li>
+          <a class="dropdown-item" routerLink="/how-to" >How To</a>
+        </li>
+        <li>
+          <a class="dropdown-item" (click)="onSignOut()">Sign Out</a>
+        </li>
+        
+      
+      </ul>
+    </div>
+
+    <div class="btn-group dropstart d-md-none" *ngIf="authenticator.route === 'authenticated'">
+      <button
+        type="button"
+        class="btn btn-outline-info dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+       <!-- Show username on larger screens -->
+       <span class="d-none d-md-inline">{{ authenticator.user.username }}</span>
+
+       <!-- Show profile icon on smaller screens -->
+       <i class="bi bi-person-circle d-md-none"></i>
+        
+      </button>
+
+      <ul class="dropdown-menu">
+        <li>
+          <a class="dropdown-item" routerLink="/map" >Home</a>
+        </li>
+        <li> <a
+     
+          class="dropdown-item" 
+          data-bs-toggle="modal"
+          data-bs-target="#myProfileModal"
+        >
+          Profile
+        </a> </li>
+        <li> <a class="dropdown-item" routerLink="/about-us">About Us</a></li>
+        <li>
+          <a class="dropdown-item" routerLink="/how-to" >How To</a>
+        </li>
+        <li>
+          <a class="dropdown-item" (click)="onSignOut()">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<div class="modal fade" id="myProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> My profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+     
+      <ng-container *ngIf="!!authenticator.user">
+          <ul>
+              <li>Username: {{ authenticator.user.username }}</li>
+              <!-- <li>UserID: {{ authenticator.user.userId }}</li> -->
+              <li>Email: {{ userInfo.email }}</li>
+              <li>Verified User: {{ userInfo.email_verified }}</li>
+
+          </ul>
+      </ng-container>
+       
+        
+          
+        
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          
+        </div>
+    </div>
+  </div>
+</div>

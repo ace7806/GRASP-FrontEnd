@@ -78,22 +78,6 @@ export class GasMapComponent {
     const tmp = structuredClone(this.gas_stations);
     let data = tmp.features;
 
-    // Filter by price
-    if (this.filters.price) {
-      data.sort((a: any, b: any) =>
-        this.filters.price === 'Lowest'
-          ? parseFloat(a.properties.Station_Gas_Price) - parseFloat(b.properties.Station_Gas_Price)
-          : parseFloat(b.properties.Station_Gas_Price) - parseFloat(a.properties.Station_Gas_Price)
-      );
-    }
-
-    // Filter by brand (using Station_Name to infer brand, adjust as necessary)
-    if (this.filters.brand.length > 0) {
-      data = data.filter((station: any) =>
-        this.filters.brand.some((brand: any) => station.properties.Station_Name.includes(brand))
-      );
-    }
-
     // Filter by gas type
     data.forEach((station: any) => {
       let price: any = 0;
@@ -109,6 +93,21 @@ export class GasMapComponent {
       station.properties.priceHighlight = price;
     });
 
+    // Filter by price
+    if (this.filters.price) {
+      data.sort((a: any, b: any) =>
+        this.filters.price === 'Lowest'
+          ? parseFloat(a.properties.priceHighlight) - parseFloat(b.properties.priceHighlight)
+          : parseFloat(b.properties.priceHighlight) - parseFloat(a.properties.priceHighlight)
+      );
+    }
+
+    // Filter by brand (using Station_Name to infer brand, adjust as necessary)
+    if (this.filters.brand.length > 0) {
+      data = data.filter((station: any) =>
+        this.filters.brand.some((brand: any) => station.properties.Station_Name.includes(brand))
+      );
+    }
 
     // Exclude stations with invalid prices
     data = data.filter((station: any) => parseFloat(station.properties.Station_Gas_Price) > 0);
